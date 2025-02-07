@@ -2,10 +2,10 @@
 
 ## Merge Sort
 
-- **Time Complexity:** O(n log(n))
+- **Time Complexity:** `O(n log(n))`
 - **Space Complexity:**
-  - **Best case:** O(n) auxiliary space
-  - **Worst case:** O(n) auxiliary space
+  - **Best case:** `O(n)` auxiliary space
+  - **Worst case:** `O(n)` auxiliary space
 
 
 ```python
@@ -56,3 +56,4 @@ print("Original array:", arr)
 solution.mergeSort(arr, 0, len(arr) - 1)
 print("Sorted array:", arr)
 ```
+

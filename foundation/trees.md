@@ -2,10 +2,10 @@
 
 ## DFS 
 
-**Time Complexity:** O(n)    
+**Time Complexity:** `O(n)`    
 **Space Complexity:**    
-                    - Best case: O(log(n)) because max height of a tree is log(n)    
-                    - Worst case: O(n)   
+                    - Best case: `O(log(n))` because max height of a tree is *log(n)*    
+                    - Worst case: `O(n)`   
 
 
 ### Iterative Method using Stack
@@ -127,6 +127,13 @@ print("Post-order:", postorder(root))
 
 ## BFS
 
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:**
+  - **Best case:** `O(log(n))` for a balanced binary tree
+  - **Worst case:** `O(n)` for a completely unbalanced tree
+
+
 ```python
 from collections import deque
 
@@ -171,9 +178,4 @@ root.right.right = TreeNode(6)
 
 print(bfs(root))  # Output: [1, 2, 3, 4, 5, 6]
 ```
-
-- **Time Complexity:** O(n)
-- **Space Complexity:**
-  - **Best case:** O(log(n)) for a balanced binary tree
-  - **Worst case:** O(n) for a completely unbalanced tree
 
