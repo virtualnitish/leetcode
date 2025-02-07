@@ -122,3 +122,58 @@ print("In-order:", inorder(root))
 print("Post-order:", postorder(root))
 
 ```
+
+
+
+## BFS
+
+```python
+from collections import deque
+
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+def bfs(root):
+    if not root:
+        return []
+
+    queue = deque([root])
+    result = []
+
+    while queue:
+        current = queue.popleft()
+        result.append(current.value)
+        
+        if current.left:
+            queue.append(current.left)
+        if current.right:
+            queue.append(current.right)
+    
+    return result
+
+# Example Usage
+# Creating a sample tree:
+#         1
+#        / \
+#       2   3
+#      / \   \
+#     4   5   6
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+root.right.right = TreeNode(6)
+
+print(bfs(root))  # Output: [1, 2, 3, 4, 5, 6]
+```
+
+- **Time Complexity:** O(n)
+- **Space Complexity:**
+  - **Best case:** O(log(n)) for a balanced binary tree
+  - **Worst case:** O(n) for a completely unbalanced tree
+
