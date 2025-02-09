@@ -1,6 +1,6 @@
 # 105. Construct Binary Tree from Preorder and Inorder Traversal
 
-## `O(n^2)` method, easy to implement
+## O(n<sup>2</sup>) method, easy to implement
 
 ```python
 class TreeNode:
