@@ -1,7 +1,9 @@
 # Graph and Graph Traversal Algorithms
+---
+
+# Building and Traversing Graph usnig Adjacency List
 
 ## Adjacency List DFS
-
 
 ```python
 def build_adj_list(edges, n): # n is number of vertices
@@ -73,14 +75,5 @@ bfs_result = bfs(graph, 0)
 print("BFS traversal:", bfs_result)
 ```
 
-### Steps to remember:
+## Shortest Path 
 
-1. Define variables like length, visited and queue.
-2. Two loops; while and for; restrict for with length of queue.
-3. Check terminating condition
-4. Three checks to add the neighbour:
-    1. Out-of-bounds check
-    2. Visited check
-    3. Obstacle check
-5. Increase length for level
-6. Return length
