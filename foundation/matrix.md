@@ -79,8 +79,8 @@ print(bfs(grid))  # Output: shortest path length
 
 ```
 
-**Time Complexity:** O(rows*cols)
-**Space Complexity:** O(rows*cols)
+**Time Complexity:** `O(rows*cols)`    
+**Space Complexity:** `O(rows*cols)`
 
 ### Steps to remember:
 
