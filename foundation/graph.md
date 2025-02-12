@@ -1,9 +1,8 @@
 # Graph and Graph Traversal Algorithms
----
 
-# Building and Traversing Graph usnig Adjacency List
+## Building and Traversing Graph usnig Adjacency List
 
-## Adjacency List DFS
+### Adjacency List DFS
 
 ```python
 def build_adj_list(edges, n): # n is number of vertices
@@ -34,7 +33,7 @@ print("DFS traversal:", end=' ')
 dfs(graph, 0, visited)
 ```
 
-## Adjacency List BFS
+### Adjacency List BFS
 
 ```python
 from collections import deque
