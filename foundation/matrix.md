@@ -5,16 +5,9 @@
 Recursive Algorithm Backtracking is involved.
 
 ```python
-# Matrix (2D Grid)
-grid = [
-    [0, 0, 0, 0],
-    [1, 1, 0, 0],
-    [0, 0, 0, 1],
-    [0, 1, 0, 0]
-]
 
-
-def dfs(grid: list[list[int]], r: int, c: int, visit: set[tuple[int, int]]) -> int:
+## Find number of different paths between (0,0) and (n-1, m-1)
+def dfs(grid, r, c, visit):
     rows, cols = len(grid), len(grid[0])
     if (
         min(r,c) < 0 or r >= rows or c >= cols or
@@ -34,6 +27,14 @@ def dfs(grid: list[list[int]], r: int, c: int, visit: set[tuple[int, int]]) -> i
 
     visit.remove((r, c))
     return count
+
+grid = [
+    [0, 0, 0, 0],
+    [1, 1, 0, 0],
+    [0, 0, 0, 1],
+    [0, 1, 0, 0]
+]
+print(dfs(grid, r, c, set()))
 ```
 
 
@@ -68,7 +69,6 @@ def bfs(grid):
     
     return -1  # If there's no valid path
 
-# Example usage:
 grid = [
     [0, 0, 0, 0],
     [1, 1, 0, 0],
