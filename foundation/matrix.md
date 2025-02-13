@@ -8,13 +8,13 @@ Recursive Algorithm Backtracking is involved.
 
 ## Find number of different paths between (0,0) and (n-1, m-1)
 def dfs(grid, r, c, visit):
-    rows, cols = len(grid), len(grid[0])
+    ROWS, COLS = len(grid), len(grid[0])
     if (
-        min(r,c) < 0 or r >= rows or c >= cols or
+        min(r,c) < 0 or r >= ROWS or c >= COLS or
         (r, c) in visit or grid[r][c] == 1
     ):
         return 0
-    if r == rows - 1 and c == cols - 1:
+    if r == ROWS - 1 and c == COLS - 1:
         return 1
 
     visit.add((r, c))
