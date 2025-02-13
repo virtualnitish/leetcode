@@ -1,12 +1,12 @@
 # Matrix
 
+Find number of different paths between (0,0) and (n-1, m-1) in a given matrix.
+
 ## DFS
 
 Recursive Algorithm Backtracking is involved.
 
 ```python
-
-## Find number of different paths between (0,0) and (n-1, m-1)
 def dfs(grid, r, c, visit):
     ROWS, COLS = len(grid), len(grid[0])
     if (
@@ -36,6 +36,16 @@ grid = [
 ]
 print(dfs(grid, r, c, set()))
 ```
+
+### DFS Steps to remember
+
+1. Start with Terminating conditions
+    1. Failure
+    2. Success
+2. Add to visited
+3. Recurve all neighbors
+4. Remove from visited
+5. Return count
 
 
 ## BFS
