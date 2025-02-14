@@ -2,7 +2,7 @@
 
 ## DFS
 
-*Recursive Algorithm Backtracking is involved.*
+*Recursive Algorithm; Backtracking is involved.*
 
 DFS code to count all distinct paths from start to destination.
 
