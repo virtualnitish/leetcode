@@ -1,10 +1,10 @@
 # Matrix
 
-Find number of different paths between (0,0) and (n-1, m-1) in a given matrix.
-
 ## DFS
 
-Recursive Algorithm Backtracking is involved.
+*Recursive Algorithm Backtracking is involved.*
+
+DFS code to count all distinct paths from start to destination.
 
 ```python
 def dfs(grid, r, c, visit):
@@ -49,6 +49,8 @@ print(dfs(grid, r, c, set()))
 
 
 ## BFS
+
+BFS code to find the shortest path length from start to destination.
 
 ```python
 from collections import deque
