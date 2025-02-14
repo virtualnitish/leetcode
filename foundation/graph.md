@@ -4,7 +4,7 @@
 
 ### Adjacency List DFS
 
-*Recursive code*
+#### Recursive
 
 ```python
 def build_adj_list(edges, n):  # n is the number of vertices
@@ -14,12 +14,12 @@ def build_adj_list(edges, n):  # n is the number of vertices
         adj_list[v].append(u)  # Assuming it's an undirected graph
     return adj_list
 
-def dfs(adj_list, node, visited, dfs_order):
+def dfs(adj_list, node, visited, result):
     visited.add(node)
-    dfs_order.append(node)
+    result.append(node)
     for neighbor in adj_list[node]:
         if neighbor not in visited:
-            dfs(adj_list, neighbor, visited, dfs_order)
+            dfs(adj_list, neighbor, visited, result)
 
 edges = [(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)]
 n = 7  # Number of nodes
@@ -29,10 +29,31 @@ print("Adjacency List:", graph)
 
 # Perform DFS starting from node 0
 visited = set()
-dfs_order = []
-dfs(graph, 0, visited, dfs_order)
-print("DFS traversal:", dfs_order)
+result = []
+dfs(graph, 0, visited, result)
+print("DFS traversal:", result)
 ```
+
+#### Iterative
+
+```python
+def dfs_iterative(adj_list, start):
+    visited = set()
+    result = []
+    stack = [start]
+
+    while stack:
+        node = stack.pop()
+        if node not in visited:
+            visited.add(node)
+            result.append(node)
+            for neighbor in adj_list[node]:
+                if neighbor not in visited:
+                    stack.append(neighbor)
+
+    return result
+```
+
 
 ### Adjacency List BFS
 
