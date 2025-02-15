@@ -191,6 +191,17 @@ At the heart of DFS and BFS lies the need to **prevent cycles** and **avoid redu
 
 The timing of when we mark a node as visited can affect the correctness and efficiency of your traversal.
 
+
+### **When to Mark a Node as Visited in DFS**
+
+**Best Practice**: **Mark a node as visited **when you first encounter it**, before exploring its neighbors.**
+
+
+### **When to Mark a Node as Visited in BFS**
+
+**Best Practice**: **Mark a node as visited **when you enqueue it**, before it's dequeued for processing.**
+
+
 ---
 
 ## 🌳 Depth-First Search (DFS)

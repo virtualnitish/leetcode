@@ -202,12 +202,15 @@ print(bfs(root))  # Output: [1, 2, 3, 4, 5, 6]
 ```python
 class DisjointSet:
     def __init__(self, n):
-        # Initialize parent and rank arrays
-        self.parent = list(range(n))
+        # Each element is parent of itself to form an individual disjoint set.
+        self.parent = list(range(n)) # [0,1,2,3,...]
         self.rank = [0] * n
 
     def find(self, u):
-        # Find the root of the set containing u with path compression
+        # If a set is not parent of itself, then use path compression
+        # to find the root(topmost parent) of the disjoint set.
+        ## Gets into work when you have started to form new disjoint sets and 
+        ## other individual sets have joined you already.
         if self.parent[u] != u:
             self.parent[u] = self.find(self.parent[u])
         return self.parent[u]
