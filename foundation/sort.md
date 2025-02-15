@@ -61,3 +61,76 @@ solution.mergeSort(arr, 0, len(arr) - 1)
 print("Sorted array:", arr)
 ```
 
+## Topological Sort
+
+**Depth-First Search (DFS) Postorder Implementation**
+
+```python
+from collections import defaultdict
+
+def topological_sort(vertices, edges):
+    graph = defaultdict(list)
+    for u, v in edges:
+        graph[u].append(v)
+
+    visited = set()
+    stack = []
+
+    def dfs(node):
+        visited.add(node)
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                dfs(neighbor)
+        stack.append(node)  # Append after visiting all neighbors
+
+    for vertex in vertices:
+        if vertex not in visited:
+            dfs(vertex)
+
+    return stack[::-1]  # Reverse to get the topological order
+
+# Example usage:
+vertices = ['A', 'B', 'C', 'D', 'E', 'F']
+edges = [
+    ('A', 'D'),
+    ('B', 'D'),
+    ('C', 'E'),
+    ('D', 'E'),
+    ('E', 'F')
+]
+
+order = topological_sort(vertices, edges)
+print("Topological Order:", order)
+```
+
+**Sample Output:**
+```
+Topological Order: ['C', 'B', 'A', 'D', 'E', 'F']
+```
+
+---
+
+1. **Explanation of the Approach:**
+
+   The algorithm uses **Depth-First Search (DFS)** to traverse the graph. Here's the key idea:
+
+   - **Recursive DFS Traversal:** For each unvisited node, we recursively visit all its unvisited neighbors.
+   - **Post-order Insertion:** After all neighbors of a node have been visited, the node is appended to a stack. This ensures that a node appears after all nodes it depends on.
+   - **Reverse the Stack:** Reversing the stack gives the nodes in a topologically sorted order.
+
+2. **Time & Space Complexity:**
+
+   - **Time Complexity:** O(V + E)
+     - *V* is the number of vertices, and *E* is the number of edges.
+     - Each vertex and edge is explored once during DFS.
+   - **Space Complexity:** O(V + E)
+     - O(V + E) for storing the graph in an adjacency list.
+     - O(V) for the recursion call stack in the worst case (if the graph is a single linear chain).
+     - O(V) for the `visited` set and `stack` to store the topological order.
+
+---
+
+**Additional Insight:**
+
+Topological sorting is fundamental in scenarios where there is a need to schedule tasks while respecting dependencies, such as compiling programs, task scheduling, and resolving symbol dependencies in linkers. If you're interested in handling graphs with cycles (which cannot be topologically sorted), you might consider incorporating cycle detection into your algorithm.
+
