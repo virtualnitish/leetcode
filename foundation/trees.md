@@ -265,3 +265,80 @@ Understand the code here:
 [Tushar Roy - Disjoin Sets](https://www.youtube.com/watch?v=ID00PMy0-vE)      
 [Abdul Bari - In-depth Disjoint Set](https://www.youtube.com/watch?v=wU6udHRIkcc)     
 
+
+## Prim’s Algorithm
+
+**"Greedy + Heap + Visited"**
+
+- **Greedy**: Always picks the smallest edge available at each step.
+- **Heap**: Uses a min-heap (priority queue) to efficiently find the smallest edge.
+- **Visited**: Tracks visited nodes to avoid cycles and ensure the tree grows correctly.
+
+---
+
+1. **Start with a single vertex**: Begin from any vertex (e.g., vertex 0) and mark it as part of the MST.
+2. **Use a min-heap to track edges**: Maintain a min-heap (priority queue) to store edges connected to the current MST. Each edge is represented as `(weight, vertex)`.
+3. **Grow the MST greedily**:
+    - Extract the smallest edge from the heap.
+    - If the connected vertex is unvisited, add it to the MST and mark it as visited.
+    - Add all its unvisited neighbors to the heap with their respective edge weights.
+4. **Repeat until all vertices are included**: Continue this process until all vertices are part of the MST, ensuring no cycles are formed.
+
+---
+
+**Key Points:**
+
+- The algorithm builds the MST one vertex at a time, always choosing the smallest available edge connected to the current MST.
+- It uses a **min-heap** to efficiently find the smallest edge and a **visited array** to avoid cycles.
+
+---
+
+```python
+from collections import heapq
+
+def prim(graph):
+    # Start from the node 0
+    start = 0
+    visited = [False] * len(graph)
+    heap = [(0, start)] # (wt, vertex)
+    parent = [-1] * len(graph)  # Array to store the MST edges
+    total_wt = 0 
+    
+    while heap:
+        wt, u = heapq.heappop(heap)
+        
+        # If the node is already visited, skip it
+        if visited[u]:
+            continue
+            
+        # Mark the current node as visited
+        visited[u] = True
+        total_wt += wt  # Add weight to the total weight
+        
+        # Explore neighbors
+        for v, w in graph[u]:
+            if not visited[v]:
+                heapq.heappush(heap, (w, v))
+                parent[v] = u  # Set parent of v to u
+
+    # Print the MST
+    print("Minimum Spanning Tree edges:")
+    for i in range(1, len(graph)):
+        if parent[i] != -1:
+            print(f"({parent[i]}, {i})")
+    
+    # Print the total weight
+    print(f"Total weight of the Minimum Spanning Tree: {total_wt}")
+
+# Example usage:
+# Graph represented as an adjacency list (node: [(neighbor, weight), ...])
+graph = [
+    [(1, 2), (3, 6)],
+    [(0, 2), (2, 3), (3, 8), (4, 5)],
+    [(1, 3), (4, 7)],
+    [(0, 6), (1, 8)],
+    [(1, 5), (2, 7)]
+]
+
+prim(graph)
+```
