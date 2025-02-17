@@ -21,5 +21,5 @@ def binary_search(arr, k):
     return -1
 ```
 
-Do not forget the `<=` in `while l <=r:`.     
+Do not forget **equals** in `<=` at `while l <=r:`.     
 Make sure to return `-1` in case you don't find the `k`.
