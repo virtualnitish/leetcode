@@ -12,7 +12,7 @@ def binary_search(arr, k):
     
     while l <= r:
         mid = (l + r) // 2
-        if arr[mid] == k:
+        if k == arr[mid]:
             return mid
         elif k < arr[mid]:
             r = mid - 1
