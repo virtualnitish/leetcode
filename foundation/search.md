@@ -6,17 +6,20 @@
 **Space Complexity:** O(1)
 
 ```python
-def binary_search(self, arr, n, k):
-    start = 0
-    end = n - 1
+def binary_search(arr, k):
+    l = 0
+    r = n - 1
     
-    while start <= end:
-        mid = (start + end) // 2
+    while l <= r:
+        mid = (l + r) // 2
         if arr[mid] == k:
             return mid
         elif k < arr[mid]:
-            end = mid - 1
+            r = mid - 1
         else:
-            start = mid + 1
+            l = mid + 1
     return -1
 ```
+
+Do not forget the `<=` in `while l <=r:`.     
+Make sure to return `-1` in case you don't find the `k`.
