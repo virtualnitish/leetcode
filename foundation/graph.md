@@ -15,11 +15,12 @@ def build_adj_list(edges, n):  # n is the number of vertices
     return adj_list
 
 def dfs(adj_list, node, visited, result):
-    visited.add(node)
-    result.append(node)
-    for neighbor in adj_list[node]:
-        if neighbor not in visited:
-            dfs(adj_list, neighbor, visited, result)
+    if node not in visited: # Not required if DFS is only called after checking the visited set
+        visited.add(node)
+        result.append(node)
+        for neighbor in adj_list[node]:
+            if neighbor not in visited:
+                dfs(adj_list, neighbor, visited, result)
 
 edges = [(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)]
 n = 7  # Number of nodes
@@ -44,7 +45,7 @@ def dfs_iterative(adj_list, start):
 
     while stack:
         node = stack.pop()
-        if node not in visited:
+        if node not in visited: # Essential check
             visited.add(node)
             result.append(node)
             for neighbor in adj_list[node]:
@@ -53,6 +54,27 @@ def dfs_iterative(adj_list, start):
 
     return result
 ```
+
+### The Line `if node not in visited:` Before Marking Visited Is Very Very Important.
+
+Even though we only add neighbors that haven't been visited to the stack, **a node can be added to the stack before it has been processed (i.e., marked as visited)** from multiple sources.
+
+```
+    1
+   / \
+  2---3
+       \
+        4
+```
+
+In graphs with cycles or multiple paths, a node might get added to the stack by different neighboring nodes before it's actually popped and processed.
+
+**Illustration:**
+
+- Node `2` was connected to both `1` and `3`.
+- Both `1` and `3` can add `2` to the stack before `2` is processed.
+- Without the `if node not in visited:` check, `2` is processed multiple times and added to the result twice!
+- **Final Result:** `[1, 3, 4, 2, 2]`
 
 
 ### Adjacency List BFS

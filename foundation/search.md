@@ -2,8 +2,8 @@
 
 ## Binary Search
 
-**Time Complexity:** O(log(n))    
-**Space Complexity:** O(1)
+**Time Complexity:** `O(log(n))`    
+**Space Complexity:** `O(1)`
 
 ```python
 def binary_search(arr, k):
