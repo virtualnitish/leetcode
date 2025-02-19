@@ -55,7 +55,7 @@ def dfs_iterative(adj_list, start):
     return result
 ```
 
-### The Line `if node not in visited:` Before Marking Visited Is Very Very Important.
+**The Line `if node not in visited:` Before Marking Visited Is Very Very Important.**   
 
 Even though we only add neighbors that haven't been visited to the stack, **a node can be added to the stack before it has been processed (i.e., marked as visited)** from multiple sources.
 
@@ -75,6 +75,7 @@ In graphs with cycles or multiple paths, a node might get added to the stack by 
 - Both `1` and `3` can add `2` to the stack before `2` is processed.
 - Without the `if node not in visited:` check, `2` is processed multiple times and added to the result twice!
 - **Final Result:** `[1, 3, 4, 2, 2]`
+
 
 
 ### Adjacency List BFS
@@ -115,6 +116,7 @@ print("Adjacency List:", graph)
 bfs_result = bfs(graph, 0)
 print("BFS traversal:", bfs_result)
 ```
+
 
 ## Shortest Path Algorithm
 

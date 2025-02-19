@@ -233,20 +233,20 @@ def kruskal(graph, n):
     edges = sorted(graph, key=lambda edge: edge[2])
     disjoint_set = DisjointSet(n)
     mst = []  # Minimum Spanning Tree
-    total_weight = 0
+    total_wt = 0
 
-    for u, v, weight in edges:
+    for u, v, wt in edges:
         # Check if the current edge forms a cycle
         if disjoint_set.find(u) != disjoint_set.find(v):
             # If not, add the edge to the MST
             disjoint_set.union(u, v)
-            mst.append((u, v, weight))
-            total_weight += weight
+            mst.append((u, v, wt))
+            total_wt += wt
 
-    return mst, total_weight
+    return mst, total_wt
 
 # Example usage:
-# Graph represented as a list of edges (u, v, weight)
+# Graph represented as a list of edges (u, v, wt)
 graph = [
     (0, 1, 2), (0, 3, 6),
     (1, 2, 3), (1, 3, 8), (1, 4, 5),
@@ -302,35 +302,27 @@ from collections import heapq
 def prim(graph):
     # Start from the node 0
     start = 0
-    visited = [False] * len(graph)
+    visited = set()
     heap = [(0, start)] # (wt, vertex)
     parent = [-1] * len(graph)  # Array to store the MST edges
-    total_wt = 0 
-    
+    total_wt = 0     
     while heap:
         wt, u = heapq.heappop(heap)
         
         # If the node is already visited, skip it
-        if visited[u]:
-            continue
+        if u not in visited:
+            visited.add(u)
+            total_wt += wt
             
-        # Mark the current node as visited
-        visited[u] = True
-        total_wt += wt  # Add weight to the total weight
-        
-        # Explore neighbors
-        for v, w in graph[u]:
-            if not visited[v]:
-                heapq.heappush(heap, (w, v))
-                parent[v] = u  # Set parent of v to u
+            for v, w in graph[u]: # The adj_list has (edge, weight) order
+                if v not in visited:
+                    heapq.heappush(heap, (w, v))
+                    parent[v] = u  # Set parent of v to u
 
-    # Print the MST
     print("Minimum Spanning Tree edges:")
     for i in range(1, len(graph)):
         if parent[i] != -1:
-            print(f"({parent[i]}, {i})")
-    
-    # Print the total weight
+            print(f"({parent[i]}, {i})")    
     print(f"Total weight of the Minimum Spanning Tree: {total_wt}")
 
 # Example usage:
