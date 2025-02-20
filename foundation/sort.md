@@ -63,7 +63,7 @@ print("Sorted array:", arr)
 
 ## Topological Sort
 
-**Depth-First Search (DFS) Postorder Implementation**
+### Depth-First Search (DFS) Postorder Implementation
 
 ```python
 from collections import defaultdict
@@ -74,20 +74,20 @@ def topological_sort(vertices, edges):
         graph[u].append(v)
 
     visited = set()
-    stack = []
+    result = []
 
     def dfs(node):
         visited.add(node)
         for neighbor in graph[node]:
             if neighbor not in visited:
                 dfs(neighbor)
-        stack.append(node)  # Append after visiting all neighbors
+        result.append(node)  # Append after visiting all neighbors
 
     for vertex in vertices:
         if vertex not in visited:
             dfs(vertex)
 
-    return stack[::-1]  # Reverse to get the topological order
+    return result[::-1]  # Reverse to get the topological order
 
 # Example usage:
 vertices = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -128,9 +128,86 @@ Topological Order: ['C', 'B', 'A', 'D', 'E', 'F']
      - O(V) for the recursion call stack in the worst case (if the graph is a single linear chain).
      - O(V) for the `visited` set and `stack` to store the topological order.
 
----
 
 **Additional Insight:**
 
 Topological sorting is fundamental in scenarios where there is a need to schedule tasks while respecting dependencies, such as compiling programs, task scheduling, and resolving symbol dependencies in linkers. If you're interested in handling graphs with cycles (which cannot be topologically sorted), you might consider incorporating cycle detection into your algorithm.
 
+---
+
+### Kahn's Algorithm
+
+
+```python
+from collections import defaultdict, deque
+
+def kahns_topological_sort(vertices, edges):
+    graph = defaultdict(list)
+    in_degree = {v: 0 for v in vertices}
+
+    # Build the graph and count in-degrees
+    for u, v in edges:
+        graph[u].append(v)
+        in_degree[v] += 1
+
+    # Initialize the queue with nodes having in-degree of 0
+    queue = deque([v for v in vertices if in_degree[v] == 0])
+    top_order = []
+
+    while queue:
+        current = queue.popleft()
+        top_order.append(current)
+
+        for neighbor in graph[current]:
+            in_degree[neighbor] -= 1  # Reduce in-degree after "removing" the edge
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+
+    # Check for a cycle (if graph has a cycle, top_order won't include all vertices)
+    if len(top_order) == len(vertices):
+        return top_order
+    else:
+        raise ValueError("Graph has at least one cycle, topological sorting is not possible.")
+
+# Example usage:
+vertices = ['A', 'B', 'C', 'D', 'E', 'F']
+edges = [
+    ('A', 'D'),
+    ('B', 'D'),
+    ('C', 'E'),
+    ('D', 'E'),
+    ('E', 'F')
+]
+
+order = kahns_topological_sort(vertices, edges)
+print("Topological Order:", order)
+```
+
+**Sample Output:**
+```
+Topological Order: ['A', 'B', 'C', 'D', 'E', 'F']
+```
+
+---
+
+1. **Explanation of the Approach:**
+
+   Kahn's algorithm involves the following steps:
+
+   - **In-Degree Calculation:** First, calculate the in-degrees of all nodes.
+   - **Queue Initialization:** Initialize a queue with all nodes having an in-degree of 0.
+   - **Process Nodes in Queue:** Process nodes in the queue by adding them to the topological order and reducing the in-degree of their neighbors. If a neighbor's in-degree becomes 0, add it to the queue.
+   - **Cycle Detection:** If the topological order includes all vertices, the graph is a Directed Acyclic Graph (DAG). Otherwise, a cycle exists.
+
+2. **Time & Space Complexity:**
+
+   - **Time Complexity:** O(V + E)
+     - *V* is the number of vertices, and *E* is the number of edges.
+     - Each vertex and edge is processed once.
+   - **Space Complexity:** O(V + E)
+     - O(V + E) for storing the graph in an adjacency list and in-degree array.
+     - O(V) for the queue and topological order list.
+
+---
+
+Both DFS-based and Kahn’s algorithm are widely used and have the same time and space complexities. The choice between them can depend on the specific needs and constraints of your application.
