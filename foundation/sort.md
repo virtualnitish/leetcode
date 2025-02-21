@@ -142,12 +142,12 @@ Topological sorting is fundamental in scenarios where there is a need to schedul
 from collections import defaultdict, deque
 
 def kahns_topological_sort(vertices, edges):
-    graph = defaultdict(list)
+    adj = defaultdict(list)
     in_degree = {v: 0 for v in vertices}
 
     # Build the graph and count in-degrees
     for u, v in edges:
-        graph[u].append(v)
+        adj[u].append(v)
         in_degree[v] += 1
 
     # Initialize the queue with nodes having in-degree of 0
@@ -158,7 +158,7 @@ def kahns_topological_sort(vertices, edges):
         current = queue.popleft()
         res.append(current)
 
-        for neighbor in graph[current]:
+        for neighbor in adj[current]:
             in_degree[neighbor] -= 1  # Reduce in-degree after "removing" the edge
             if in_degree[neighbor] == 0:
                 queue.append(neighbor)
