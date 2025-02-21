@@ -152,20 +152,20 @@ def kahns_topological_sort(vertices, edges):
 
     # Initialize the queue with nodes having in-degree of 0
     queue = deque([v for v in vertices if in_degree[v] == 0])
-    top_order = []
+    res = []
 
     while queue:
         current = queue.popleft()
-        top_order.append(current)
+        res.append(current)
 
         for neighbor in graph[current]:
             in_degree[neighbor] -= 1  # Reduce in-degree after "removing" the edge
             if in_degree[neighbor] == 0:
                 queue.append(neighbor)
 
-    # Check for a cycle (if graph has a cycle, top_order won't include all vertices)
-    if len(top_order) == len(vertices):
-        return top_order
+    # Check for a cycle (if graph has a cycle, result won't include all vertices)
+    if len(res) == len(vertices):
+        return res
     else:
         raise ValueError("Graph has at least one cycle, topological sorting is not possible.")
 
