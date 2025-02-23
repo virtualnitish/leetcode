@@ -69,25 +69,25 @@ print("Sorted array:", arr)
 from collections import defaultdict
 
 def topological_sort(vertices, edges):
-    graph = defaultdict(list)
+    adj = defaultdict(list)
     for u, v in edges:
-        graph[u].append(v)
+        adj[u].append(v)
 
     visited = set()
-    result = []
+    res = []
 
     def dfs(node):
         visited.add(node)
-        for neighbor in graph[node]:
-            if neighbor not in visited:
-                dfs(neighbor)
-        result.append(node)  # Append after visiting all neighbors
+        for nei in adj[node]:
+            if nei not in visited:
+                dfs(nei)
+        res.append(node)  # Append after visiting all neighbors
 
-    for vertex in vertices:
-        if vertex not in visited:
-            dfs(vertex)
+    for v in vertices:
+        if v not in visited:
+            dfs(v)
 
-    return result[::-1]  # Reverse to get the topological order
+    return res[::-1]  # Reverse to get the topological order
 
 # Example usage:
 vertices = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -155,13 +155,13 @@ def kahns_topological_sort(vertices, edges):
     res = []
 
     while queue:
-        current = queue.popleft()
-        res.append(current)
+        curr = queue.popleft()
+        res.append(curr)
 
-        for neighbor in adj[current]:
-            in_degree[neighbor] -= 1  # Reduce in-degree after "removing" the edge
-            if in_degree[neighbor] == 0:
-                queue.append(neighbor)
+        for nei in adj[curr]:
+            in_degree[nei] -= 1  # Reduce in-degree after "removing" the edge
+            if in_degree[nei] == 0:
+                queue.append(nei)
 
     # Check for a cycle (if graph has a cycle, result won't include all vertices)
     if len(res) == len(vertices):
