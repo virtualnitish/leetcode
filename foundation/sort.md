@@ -74,18 +74,26 @@ def topological_sort(vertices, edges):
         adj[u].append(v)
 
     visited = set()
+    visiting = set()
     res = []
 
     def dfs(node):
-        visited.add(node)
-        for nei in adj[node]:
-            if nei not in visited:
-                dfs(nei)
-        res.append(node)  # Append after visiting all neighbors
+        if node in visiting:
+            return False  # Cycle detected
+        if node not in visited:
+            visiting.add(node)
+            for nei in adj[node]:
+                if not dfs(nei):
+                    return False
+            visiting.remove(node)
+            visited.add(node)
+            res.append(node)  # Append after visiting all neighbors
+        return True
 
     for v in vertices:
         if v not in visited:
-            dfs(v)
+            if not dfs(v):
+                return []  # Return empty list if a cycle is detected
 
     return res[::-1]  # Reverse to get the topological order
 
@@ -96,7 +104,8 @@ edges = [
     ('B', 'D'),
     ('C', 'E'),
     ('D', 'E'),
-    ('E', 'F')
+    ('E', 'F'),
+    ('F', 'C')  # Introducing a cycle
 ]
 
 order = topological_sort(vertices, edges)
@@ -167,7 +176,7 @@ def kahns_topological_sort(vertices, edges):
     if len(res) == len(vertices):
         return res
     else:
-        raise ValueError("Graph has at least one cycle, topological sorting is not possible.")
+        return []  # Return empty list if a cycle is detected
 
 # Example usage:
 vertices = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -176,7 +185,8 @@ edges = [
     ('B', 'D'),
     ('C', 'E'),
     ('D', 'E'),
-    ('E', 'F')
+    ('E', 'F'),
+    ('F', 'C')  # Introducing a cycle
 ]
 
 order = kahns_topological_sort(vertices, edges)
