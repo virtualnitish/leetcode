@@ -243,6 +243,10 @@ def kruskal(graph, n):
             mst.append((u, v, wt))
             total_wt += wt
 
+    # Check if MST covers all vertices
+    if len(mst) != n - 1:
+        return [], 0  # Return empty list if the MST is not possible
+
     return mst, total_wt
 
 # Example usage:
@@ -257,8 +261,11 @@ n = 5  # Number of vertices
 
 # Find the Minimum Spanning Tree using Kruskal's Algorithm
 mst, total_weight = kruskal(graph, n)
-print("Edges in the Minimum Spanning Tree:", mst)
-print(f"Total weight of the Minimum Spanning Tree: {total_weight}")
+if not mst:
+    print("Minimum Spanning Tree not possible (graph is disconnected).")
+else:
+    print("Edges in the Minimum Spanning Tree:", mst)
+    print(f"Total weight of the Minimum Spanning Tree: {total_weight}")
 
 ```
 
@@ -268,6 +275,69 @@ Understand the code here:
 [Tushar Roy - Disjoin Sets](https://www.youtube.com/watch?v=ID00PMy0-vE)      
 [Abdul Bari - In-depth Disjoint Set](https://www.youtube.com/watch?v=wU6udHRIkcc)     
 
+
+### Leetcode Style Kruskal
+
+```python
+class DisjointSet:
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+        self.rank = [0] * n
+
+    def find(self, u):
+        if self.parent[u] != u:
+            self.parent[u] = self.find(self.parent[u])  # Path compression
+        return self.parent[u]
+
+    def union(self, u, v):
+        root_u = self.find(u)
+        root_v = self.find(v)
+
+        if root_u == root_v:
+            return False  # A cycle detected
+
+        if self.rank[root_u] > self.rank[root_v]:
+            self.parent[root_v] = root_u
+        elif self.rank[root_u] < self.rank[root_v]:
+            self.parent[root_u] = root_v
+        else:
+            self.parent[root_v] = root_u
+            self.rank[root_u] += 1
+
+        return True
+
+def kruskal(n, edges):
+    # Sort edges based on weight
+    sorted_edges = sorted(edges, key=lambda edge: edge[2])
+
+    dsu = DisjointSet(n)
+    total_weight = 0
+    edge_count = 0
+
+    for u, v, w in sorted_edges:
+        if dsu.union(u, v):
+            total_weight += w
+            edge_count += 1
+
+            # Early stopping if all vertices are connected
+            if edge_count == n - 1:
+                break
+
+    # Check if all nodes are connected
+    return total_weight if edge_count == n - 1 else -1
+
+# Example usage:
+n = 5  # Number of vertices
+edges = [
+    (0, 1, 2), (0, 3, 6),
+    (1, 2, 3), (1, 3, 8), (1, 4, 5),
+    (2, 4, 7),
+    (3, 4, 9)
+]
+
+result = kruskal(n, edges)
+print(result)  # Outputs: 16 (Total weight) or -1 if MST is not possible
+```
 
 ## Prim’s Algorithm
 
@@ -296,8 +366,55 @@ Understand the code here:
 
 ---
 
+
+### Leetcode style Prim's implementation
+
 ```python
-from collections import heapq
+import heapq
+from collections import defaultdict
+
+def prim(n, edges):
+    # Build the adjacency list
+    graph = defaultdict(list)
+    for u, v, w in edges:
+        graph[u].append((w, v))
+        graph[v].append((w, u))  # Assuming undirected graph
+
+    visited = set()
+    min_heap = [(0, 0)]  # Start with node 0 and weight 0
+    total_weight = 0
+
+    while min_heap and len(visited) < n:
+        weight, u = heapq.heappop(min_heap)
+        if u in visited:
+            continue
+        visited.add(u)
+        total_weight += weight
+        for w, v in graph[u]:
+            if v not in visited:
+                heapq.heappush(min_heap, (w, v))
+
+    # If all nodes are visited, return the total weight; otherwise, return -1
+    return total_weight if len(visited) == n else -1
+
+# Example usage:
+n = 5  # Number of vertices
+edges = [
+    (0, 1, 2), (0, 3, 6),
+    (1, 2, 3), (1, 3, 8), (1, 4, 5),
+    (2, 4, 7),
+    (3, 4, 9)
+]
+
+result = prim(n, edges)
+print(result)  # Outputs: 16 (Total weight) or -1 if MST is not possible
+```
+
+
+### Detailed Print MST Implementation
+
+```python
+import heapq
 
 def prim(graph):
     # Start from the node 0
@@ -305,25 +422,35 @@ def prim(graph):
     visited = set()
     heap = [(0, start)] # (wt, vertex)
     parent = [-1] * len(graph)  # Array to store the MST edges
-    total_wt = 0     
+    total_wt = 0
+    mst_edges = []
+
     while heap:
         wt, u = heapq.heappop(heap)
-        
+
         # If the node is already visited, skip it
         if u not in visited:
             visited.add(u)
             total_wt += wt
             
+            if parent[u] != -1:
+                mst_edges.append((parent[u], u, wt))
+
             for v, w in graph[u]: # The adj_list has (edge, weight) order
                 if v not in visited:
                     heapq.heappush(heap, (w, v))
                     parent[v] = u  # Set parent of v to u
 
+    # Check if all nodes are visited (MST is possible)
+    if len(visited) != len(graph):
+        return []  # Return empty list if the graph is disconnected
+
     print("Minimum Spanning Tree edges:")
-    for i in range(1, len(graph)):
-        if parent[i] != -1:
-            print(f"({parent[i]}, {i})")    
+    for u, v, wt in mst_edges:
+        print(f"({u}, {v}) with weight {wt}")
     print(f"Total weight of the Minimum Spanning Tree: {total_wt}")
+    
+    return mst_edges, total_wt
 
 # Example usage:
 # Graph represented as an adjacency list (node: [(neighbor, weight), ...])
@@ -335,5 +462,12 @@ graph = [
     [(1, 5), (2, 7)]
 ]
 
-prim(graph)
+result = prim(graph)
+if not result:
+    print("Minimum Spanning Tree not possible (graph is disconnected).")
+else:
+    mst_edges, total_weight = result
+    print("MST Edges:", mst_edges)
+    print("Total Weight:", total_weight)
+
 ```
