@@ -381,21 +381,26 @@ def prim(n, edges):
         graph[v].append((w, u))  # Assuming undirected graph
 
     visited = set()
-    min_heap = [(0, 0)]  # Start with node 0 and weight 0
+    min_heap = [(0, 0, -1)]  # (weight, current_node, parent_node)
     total_weight = 0
+    mst = []
 
     while min_heap and len(visited) < n:
-        weight, u = heapq.heappop(min_heap)
+        weight, u, parent = heapq.heappop(min_heap)
         if u in visited:
             continue
         visited.add(u)
         total_weight += weight
+        if parent != -1:
+            mst.append((parent, u, weight))
         for w, v in graph[u]:
             if v not in visited:
-                heapq.heappush(min_heap, (w, v))
+                heapq.heappush(min_heap, (w, v, u))
 
-    # If all nodes are visited, return the total weight; otherwise, return -1
-    return total_weight if len(visited) == n else -1
+    if len(visited) == n:
+        return mst, total_weight
+    else:
+        return [], -1
 
 # Example usage:
 n = 5  # Number of vertices
@@ -406,8 +411,9 @@ edges = [
     (3, 4, 9)
 ]
 
-result = prim(n, edges)
-print(result)  # Outputs: 16 (Total weight) or -1 if MST is not possible
+mst, total_weight = prim(n, edges)
+print("MST:", mst)
+print("Total weight:", total_weight)
 ```
 
 
