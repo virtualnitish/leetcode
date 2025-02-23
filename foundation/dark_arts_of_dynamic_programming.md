@@ -205,6 +205,8 @@ To enhance your DP skills:
 
 ## Dynamic Programming Patterns & Templates
 
+[20 Patterns to Master Dynamic Programming | AlgoMaster](https://blog.algomaster.io/p/20-patterns-to-master-dynamic-programming)
+
 ### 1. Top-Down (Memoization)
 ```python
 from functools import lru_cache
