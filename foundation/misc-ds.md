@@ -2,6 +2,27 @@
 
 ## Disjoint Set
 
+### Without Rank(or Size)
+
+```python
+class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        
+    def find(self, u):
+        if self.parent[u] != u:
+            self.parent[u] = self.find(self.parent[u])  # Path Compression
+        return self.parent[u]
+        
+    def union(self, u, v):
+        root_u = self.find(u)
+        root_v = self.find(v)
+        if root_u != root_v:
+            self.parent[root_v] = root_u  # Union without considering rank
+```
+
+### With Rank
+
 ```python
 class DisjointSet:
     def __init__(self, n):
@@ -49,3 +70,5 @@ print(ds.find(3))  # Outputs: 3 (or the representative of the set containing 3)
 print(ds.find(0) == ds.find(1))  # Outputs: True
 print(ds.find(0) == ds.find(3))  # Outputs: False
 ```
+
+[Disjoint-Set Deep Dive](deep-dive/disjoint-set.md)
