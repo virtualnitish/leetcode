@@ -1,9 +1,11 @@
 # The Dark Arts of Dynamic Programming
 
 Am I too stupid to understand Dynamic Programming? **Yes.**    
-But is my brain capable of functioning as a glorified recording device for frequent questions? **Disturbingly, yes.** So, I'll do whatever works, even if it leads to intellectual emptiness.   
-Maybe, just maybe, the interviewer will be fooled by this hollow imitation of understanding. It's a grim prospect, but a prospect nonetheless.    
-Wish me Luck.🤞    
+But is my brain capable of functioning as a broken recording device for frequent questions? **Possibly.**     
+So, I'll do whatever works, even if it leads to intellectual emptiness.   
+Maybe, just maybe, the interviewer will be fooled by this hollow imitation of understanding.      
+It's a grim prospect, but a prospect nonetheless.    
+Wish me Luck.🤞     
 
 ![The Black Book of Dynamic Programming](images/dark_arts_of_dynamic_programming-image-1.png)
 
@@ -214,27 +216,43 @@ To enhance your DP skills:
 
 ### 1. Top-Down (Memoization)
 ```python
-from functools import lru_cache
-
 def top_down_template():
-    @lru_cache(maxsize=None)
+    # Dictionary to store cached results
+    cache = {}
+
     def dp(state):
+        # Return cached result if available
+        if state in cache:
+            return cache[state]
+        
         # Base case
         if base_case_condition:
+            cache[state] = base_case_value
             return base_case_value
         
         # State transitions
         result = combine_options(dp(next_state1), dp(next_state2))
+        
+        # Store the result in cache before returning
+        cache[state] = result
         return result
     
     return dp(initial_state)
 
 # Example: Fibonacci Number
 def fib(n):
-    @lru_cache(maxsize=None)
+    cache = {}
+
     def dp(i):
-        if i <= 1: return i
-        return dp(i-1) + dp(i-2)
+        if i in cache:
+            return cache[i]
+        if i <= 1:
+            cache[i] = i
+            return i
+        result = dp(i-1) + dp(i-2)
+        cache[i] = result
+        return result
+    
     return dp(n)
 ```
 
