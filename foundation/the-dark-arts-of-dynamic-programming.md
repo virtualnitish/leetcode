@@ -1,10 +1,9 @@
 # The Dark Arts of Dynamic Programming
 
 Am I too stupid to understand Dynamic Programming? **Yes.**    
-But not stupid enough to not even try to memorise frequently asked
-questions.    
-If you are lucky, the interviewer might ask you the question that 
-you've already *mugged up* ahem, **understood and memorised**.   
+But is my brain capable of functioning as a glorified recording device for frequent questions? **Disturbingly, yes.** So, I'll do whatever works, even if it leads to intellectual emptiness.   
+Maybe, just maybe, the interviewer will be fooled by this hollow imitation of understanding. It's a grim prospect, but a prospect nonetheless.    
+Wish me Luck.🤞    
 
 ![The Black Book of Dynamic Programming](images/dark_arts_of_dynamic_programming-image-1.png)
 
