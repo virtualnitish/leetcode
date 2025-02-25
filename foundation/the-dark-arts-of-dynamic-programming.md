@@ -1,4 +1,10 @@
-# Dark Arts of Dynamic Programming
+# The Dark Arts of Dynamic Programming
+
+Am I too stupid to understand Dynamic Programming? **Yes.**    
+But not stupid enough to not even try to memorise frequently asked
+questions.    
+If you are lucky, the interviewer might ask you the question that 
+you've already *mugged up* ahem, **understood and memorised**.   
 
 ![The Black Book of Dynamic Programming](images/dark_arts_of_dynamic_programming-image-1.png)
 
