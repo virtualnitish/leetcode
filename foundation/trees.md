@@ -375,30 +375,30 @@ from collections import defaultdict
 
 def prim(n, edges):
     # Build the adjacency list
-    graph = defaultdict(list)
+    adj = defaultdict(list)
     for u, v, w in edges:
-        graph[u].append((w, v))
-        graph[v].append((w, u))  # Assuming undirected graph
+        adj[u].append((w, v))
+        adj[v].append((w, u))  # Assuming undirected graph
 
     visited = set()
-    min_heap = [(0, 0, -1)]  # (weight, current_node, parent_node)
-    total_weight = 0
+    minheap = [(0, 0, -1)]  # (weight, current_node, parent_node)
+    totalwt = 0
     mst = []
 
-    while min_heap and len(visited) < n:
-        weight, u, parent = heapq.heappop(min_heap)
+    while minheap and len(visited) < n:
+        wt, u, parent = heapq.heappop(minheap)
         if u in visited:
             continue
         visited.add(u)
-        total_weight += weight
+        totalwt += wt
         if parent != -1:
-            mst.append((parent, u, weight))
-        for w, v in graph[u]:
+            mst.append((parent, u, wt))
+        for w, v in adj[u]:
             if v not in visited:
-                heapq.heappush(min_heap, (w, v, u))
+                heapq.heappush(minheap, (w, v, u))
 
     if len(visited) == n:
-        return mst, total_weight
+        return mst, totalwt
     else:
         return [], -1
 
