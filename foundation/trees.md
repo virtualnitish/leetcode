@@ -400,7 +400,7 @@ def prim(n, edges):
     if len(visited) == n:
         return mst, totalwt
     else:
-        return [], -1
+        return [], -1 # Disconnected Graph
 
 # Example usage:
 n = 5  # Number of vertices
