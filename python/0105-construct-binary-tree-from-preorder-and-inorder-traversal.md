@@ -39,7 +39,7 @@ root = buildTree(preorder, inorder)
 The core trick here is to use the preorder traversal to determine the root of the tree and use the inorder traversal to determine the left and right subtrees. By recursively applying this method, we can construct the entire tree.
 
 ### Time & Space Complexity:
-- **Time Complexity:** `O(n^2)`, where n is the number of nodes in the tree. This is because both `preorder.pop(0)` and `inorder.index(root_val)` are O(n) operations, and they are called for each node in the tree.
+- **Time Complexity:** O(n<sup>2</sup>), where n is the number of nodes in the tree. This is because both `preorder.pop(0)` and `inorder.index(root_val)` are O(n) operations, and they are called for each node in the tree.
 - **Space Complexity:** `O(n)`, where n is the size of the input lists. This includes the recursion stack space and the space used by the lists.
 
 ---
