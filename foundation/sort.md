@@ -221,3 +221,5 @@ Topological Order: ['A', 'B', 'C', 'D', 'E', 'F']
 ---
 
 Both DFS-based and Kahn’s algorithm are widely used and have the same time and space complexities. The choice between them can depend on the specific needs and constraints of your application.
+
+**Deep Dive:** (Difference Between Kahn's Algorithm and DFS based Topological Sort)[deep-dive/topological-sort.md]
