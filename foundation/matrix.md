@@ -4,7 +4,7 @@
 
 *Recursive Algorithm; Backtracking is involved.*
 
-DFS code to count all distinct paths from start to destination.
+DFS code to **count all distinct paths from start to destination**.
 
 ```python
 def dfs(grid, r, c, visit):
@@ -51,7 +51,7 @@ print(dfs(grid, r, c, set()))
 
 ## BFS
 
-BFS code to find the shortest path length from start to destination.
+BFS code to **find the shortest path length from start to destination**.
 
 ```python
 from collections import deque

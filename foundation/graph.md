@@ -120,3 +120,99 @@ print("BFS traversal:", bfs_result)
 
 ## Shortest Path Algorithm
 
+### Bellman-Ford Algorithm
+
+```python
+from typing import List
+
+class Solution:
+    def bellmanFord(self, n: int, edges: List[List[int]], src: int) -> List[int]:
+        """
+        Compute shortest paths from src to all nodes in a weighted directed graph
+        using the Bellman–Ford algorithm.  
+        
+        :param n: Number of nodes, labeled 0 to n-1
+        :param edges: List of edges [u, v, w] where u→v has weight w
+        :param src: Starting node
+        :return: 
+          - If no negative cycle is reachable from src, returns a list dist[] of length n,
+            where dist[i] is the shortest distance from src to i (or -1 if i is unreachable).
+          - If a negative-weight cycle is reachable, returns an empty list [].
+        """
+        # ————— Edge-case handling —————
+        if n <= 0 or not (0 <= src < n):
+            return []
+        
+        # Initialize distances
+        INF = float('inf')
+        dist = [INF] * n
+        dist[src] = 0
+        
+        # Relax all edges up to (n-1) times
+        for _ in range(n - 1):
+            updated = False
+            # We snapshot the distances so each pass only uses previous values
+            next_dist = dist.copy()
+            
+            for u, v, w in edges:
+                if dist[u] != INF and dist[u] + w < next_dist[v]:
+                    next_dist[v] = dist[u] + w
+                    updated = True
+            
+            dist = next_dist
+            # Early exit if no update in this pass
+            if not updated:
+                break
+        
+        # Check for negative-weight cycles reachable from src
+        for u, v, w in edges:
+            if dist[u] != INF and dist[u] + w < dist[v]:
+                # Negative cycle detected
+                return []
+        
+        # Convert unreachable distances from INF to -1
+        return [d if d < INF else -1 for d in dist]
+```
+
+
+Great question, Nitish — this goes right to the heart of why Bellman-Ford works so elegantly for general graphs, even with negative weights.
+
+---
+
+#### 🚧 Why **n−1** Iterations?
+
+In a graph with **n** nodes, the **longest possible simple path** (a path that doesn’t repeat any nodes) contains at most **n−1 edges**.
+
+That’s because any path with **n** or more edges must have visited at least one node twice — and hence contains a cycle.
+
+So, the **shortest path to any node** — without cycles — can be found in at most **n−1 edge relaxations** from the source. Each iteration potentially adds one more edge to the shortest path you're building.
+
+Thus:
+- **1st pass**: explores paths with 1 edge
+- **2nd pass**: paths with ≤ 2 edges
+- ...
+- **(n−1)th pass**: allows up to (n−1) edges (longest simple path)
+
+By the end of pass `n−1`, you've explored all possible shortest paths that don’t involve cycles — and you’re done.
+
+---
+
+#### ⛔ What Happens If You Go Beyond `n−1`?
+
+That’s when Bellman-Ford shifts gears — and starts detecting negative weight cycles.
+
+Here's what you do:
+- After `n−1` passes, you **do one more pass**.
+- If *any* distance improves in that final pass, it means the graph contains a **negative weight cycle** — because a shortest path with more than `n−1` edges implies revisiting nodes and reducing cost repeatedly, which only happens in such a cycle.
+
+So, continuing beyond `n−1` is useful only to check whether **distance is still decreasing due to a loop** — which would violate the well-defined concept of a shortest path.
+
+---
+
+#### 🧠 In short
+
+- **`n−1` iterations**: explore all shortest paths without cycles.
+- **1 extra iteration**: detect negative cycles.
+- **More than that**: not useful — just wastes time or risks infinite loops in naïve implementations.
+
+Let me know if you want a tiny graph to visualize this live. It’s pretty fun watching a negative cycle unravel distance values like a slot machine. 🎰
