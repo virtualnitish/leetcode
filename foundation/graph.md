@@ -123,55 +123,56 @@ print("BFS traversal:", bfs_result)
 ### Bellman-Ford Algorithm
 
 ```python
-from typing import List
+from collections import defaultdict
 
-class Solution:
-    def bellmanFord(self, n: int, edges: List[List[int]], src: int) -> List[int]:
-        """
-        Compute shortest paths from src to all nodes in a weighted directed graph
-        using the Bellman–Ford algorithm.  
-        
-        :param n: Number of nodes, labeled 0 to n-1
-        :param edges: List of edges [u, v, w] where u→v has weight w
-        :param src: Starting node
-        :return: 
-          - If no negative cycle is reachable from src, returns a list dist[] of length n,
-            where dist[i] is the shortest distance from src to i (or -1 if i is unreachable).
-          - If a negative-weight cycle is reachable, returns an empty list [].
-        """
-        # ————— Edge-case handling —————
-        if n <= 0 or not (0 <= src < n):
-            return []
-        
-        # Initialize distances
-        INF = float('inf')
-        dist = [INF] * n
-        dist[src] = 0
-        
-        # Relax all edges up to (n-1) times
-        for _ in range(n - 1):
-            updated = False
-            # We snapshot the distances so each pass only uses previous values
-            next_dist = dist.copy()
-            
-            for u, v, w in edges:
-                if dist[u] != INF and dist[u] + w < next_dist[v]:
-                    next_dist[v] = dist[u] + w
-                    updated = True
-            
-            dist = next_dist
-            # Early exit if no update in this pass
-            if not updated:
-                break
-        
-        # Check for negative-weight cycles reachable from src
+def bellman_ford(n, edges, src):
+    """
+    Computes shortest path from src to all nodes using Bellman-Ford algorithm.
+    Returns (distances list, has_negative_cycle flag)
+    """
+    INF = float('inf')
+    dist = [INF] * n
+    dist[src] = 0
+
+    # Relax edges (n - 1) times
+    for _ in range(n - 1):
+        updated = False
         for u, v, w in edges:
             if dist[u] != INF and dist[u] + w < dist[v]:
-                # Negative cycle detected
-                return []
-        
-        # Convert unreachable distances from INF to -1
-        return [d if d < INF else -1 for d in dist]
+                dist[v] = dist[u] + w
+                updated = True
+        if not updated:
+            break  # Early stop if no changes
+
+    # Check for negative-weight cycles
+    for u, v, w in edges:
+        if dist[u] != INF and dist[u] + w < dist[v]:
+            return [], True  # Negative cycle detected
+
+    # Format unreachable nodes
+    dist = [d if d < INF else -1 for d in dist]
+    return dist, False
+
+# Example graph
+n = 5
+edges = [
+    (0, 1, -1),
+    (0, 2, 4),
+    (1, 2, 3),
+    (1, 3, 2),
+    (1, 4, 2),
+    (3, 2, 5),
+    (3, 1, 1),
+    (4, 3, -3)
+]
+src = 0
+
+distances, has_negative_cycle = bellman_ford(n, edges, src)
+if has_negative_cycle:
+    print("Graph contains a negative-weight cycle.")
+else:
+    print("Shortest distances from node", src, ":", distances)
+
 ```
 
 
