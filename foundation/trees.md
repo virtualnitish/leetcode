@@ -385,7 +385,7 @@ def prim(n, edges):
     totalwt = 0
     mst = []
 
-    while minheap and len(visited) < n:
+    while minheap:
         wt, u, parent = heapq.heappop(minheap)
         if u in visited:
             continue
