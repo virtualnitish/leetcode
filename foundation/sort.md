@@ -42,6 +42,9 @@ class Solution:
             k += 1
                     
     def mergeSort(self, arr, l, r):
+        # l < r → "Split only if you can split":
+        # ensures at least 2 elements before splitting.
+        # l == r means a single element → already sorted.
         if l < r:
             # Find the middle point
             mid = (r + l) // 2
