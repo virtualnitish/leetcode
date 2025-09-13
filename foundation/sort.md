@@ -44,7 +44,7 @@ class Solution:
     def mergeSort(self, arr, l, r):
         # l < r → "Split only if you can split":
         # ensures at least 2 elements before splitting.
-        # l == r means a single element → already sorted.
+        # l == r means a single element → already sorted and nothing to split.
         if l < r:
             # Find the middle point
             mid = (r + l) // 2
