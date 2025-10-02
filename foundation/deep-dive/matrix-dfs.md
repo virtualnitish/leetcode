@@ -206,6 +206,71 @@ Using the same graph as before, starting BFS from `A`:
 
 ---
 
+
+## 🔑 Why do we remove from `visited` in DFS?
+
+Think of `visited` as a **scratchpad for the current path**.  
+- When you enter a cell `(r, c)`, you mark it as visited so you don’t loop back into it while exploring this path.  
+- When you finish exploring all possible continuations from `(r, c)`, you erase it from the scratchpad (`visited.remove((r, c))`) so that **other independent paths** can still use this cell.
+
+If you don’t remove it, then once a cell is visited in one path, it will remain blocked for all future paths — which means you’ll undercount.
+
+
+### 🧩 Example Walkthrough
+
+Take your grid:
+
+```
+S . . .
+# # . .
+. . . #
+. # . E
+```
+
+- `S = start (0,0)`
+- `E = end (3,3)`
+- `# = wall`
+
+#### Path 1 (one possible route):
+```
+S → (0,1) → (0,2) → (1,2) → (2,2) → (3,2) → E
+```
+
+When DFS explores this path:
+- It marks each cell visited along the way.
+- Once it reaches `E`, it counts `+1`.
+- Then it **backtracks**: it removes `(3,2)`, then `(2,2)`, etc., so those cells are free again for other paths.
+
+#### Path 2 (another route):
+```
+S → (0,1) → (0,2) → (1,2) → (1,3) → (2,3) ✘ (blocked)
+```
+This one fails at `(2,3)` because it’s a wall. But notice:  
+If we hadn’t removed `(1,2)` and `(0,2)` after Path 1, DFS would think they’re permanently blocked, and it would never even try this alternative route.
+
+So **removing is what allows DFS to explore all distinct paths**.
+
+
+### When to do visited.remove((r,c)) and when not to?
+
+- **If the problem is about finding *all paths* (counting, listing, exploring alternatives)** → you need to `remove` (backtrack).  
+  Examples:  
+  - Count all paths in a grid  
+  - Generate all permutations / combinations  
+  - Word search in a board (find all possible words)
+
+- **If the problem is about finding *one path* or marking global state (like visited in graph traversal)** → you do **not** remove.  
+  Examples:  
+  - Detect if a path exists  
+  - Flood fill / connected components  
+  - Cycle detection in a graph
+
+👉 Rule of thumb:  
+- **Backtracking problems (explore all possibilities)** → `remove`  
+- **Traversal problems (explore once, don’t revisit)** → don’t `remove`
+
+
+
 ## 🧐 Why the Difference in Timing?
 
 ### **DFS vs. BFS**

@@ -106,3 +106,5 @@ print(bfs(grid))  # Output: shortest path length
     3. Obstacle check
 5. Increase length for level
 6. Return length
+
+**Deep Dive:** [Matrix BFS Deep Dive](deep-dive/matrix-bfs.md)
