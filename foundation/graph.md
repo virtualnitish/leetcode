@@ -1,10 +1,10 @@
 # Graph and Graph Traversal Algorithms
 
-## Building and Traversing Graph using Adjacency List
+# Building and Traversing Graph using Adjacency List
 
-### Adjacency List DFS
+## Adjacency List DFS
 
-#### Recursive
+### Recursive
 
 ```python
 def build_adj_list(edges, n):  # n is the number of vertices
@@ -35,7 +35,7 @@ dfs(graph, 0, visited, result)
 print("DFS traversal:", result)
 ```
 
-#### Iterative
+### Iterative
 
 ```python
 def dfs_iterative(adj_list, start):
@@ -78,7 +78,7 @@ In graphs with cycles or multiple paths, a node might get added to the stack by 
 
 
 
-### Adjacency List BFS
+## Adjacency List BFS
 
 ```python
 from collections import deque
@@ -118,9 +118,9 @@ print("BFS traversal:", bfs_result)
 ```
 
 
-## Shortest Path Algorithm
+# Shortest Path Algorithm
 
-### Bellman-Ford Algorithm
+## Bellman-Ford Algorithm
 
 ```python
 from collections import defaultdict
@@ -210,6 +210,77 @@ So, continuing beyond `n−1` is useful only to check whether **distance is stil
 - **`n−1` iterations**: explore all shortest paths without cycles.
 - **1 extra iteration**: detect negative cycles.
 - **More than that**: not useful — just wastes time or risks infinite loops in naïve implementations.
+
+### Impact of Reversing the Relaxation Condition in Bellman–Ford
+
+#### 1. What the Change Does
+
+Changing  
+```
+if dist[u] != INF and dist[u] + w < dist[v]:
+    dist[v] = dist[u] + w
+```
+to  
+```
+if dist[u] != INF and dist[v] + w < dist[u]:
+    dist[u] = dist[v] + w
+```
+swaps the roles of the “from” and “to” node in each edge relaxation. Instead of pushing shorter paths outward from already-settled nodes, it attempts to pull updates backward into the source end of each edge. That breaks the forward-propagation logic that Bellman–Ford relies on.
+
+---
+
+#### 2. Example Walkthrough
+
+#### 2.1 Original Implementation
+
+Graph (n = 5, src = 0):
+
+Edges  
+0→1 (−1), 0→2 (4), 1→2 (3), 1→3 (2), 1→4 (2), 3→2 (5), 3→1 (1), 4→3 (−3)
+
+Distances by iteration:
+
+| Iteration | Node 0 | Node 1 | Node 2 | Node 3 | Node 4 |
+|-----------|--------|--------|--------|--------|--------|
+| 0         | 0      | INF    | INF    | INF    | INF    |
+| 1         | 0      | −1     | 2      | −2     | 1      |
+| 2         | 0      | −1     | 2      | −2     | 1      |
+
+After one full pass, all shortest paths from 0 settle correctly. A second pass sees no changes, so the algorithm stops early.
+
+#### 2.2 Modified Implementation
+
+Using the reversed condition:
+
+| Iteration | Node 0 | Node 1 | Node 2 | Node 3 | Node 4 |
+|-----------|--------|--------|--------|--------|--------|
+| 0         | 0      | INF    | INF    | INF    | INF    |
+| 1         | 0      | INF    | INF    | INF    | INF    |
+| 2         | 0      | INF    | INF    | INF    | INF    |
+
+No edge ever propagates a finite value into its head vertex, so all other distances remain INF. Even if you removed early stopping, nothing ever changes beyond the source.
+
+---
+
+#### 3. Why This Breaks Bellman–Ford
+
+- Bellman–Ford is built around **forward relaxation**: from a known shortest distance `dist[u]`, you compute `dist[v] = dist[u] + w`.  
+- By flipping to `dist[v] + w < dist[u]`, you try to update `u` based on `v`. But `v` starts as INF, so you never “seed” new finite distances.  
+- You lose the directional flow of information from the source to other nodes, so no shortest paths ever propagate.
+
+---
+
+#### 4. Role of the `dist[u] != INF` Check
+
+- It guards against relaxing edges **from** unreachable nodes.  
+- If you omit it and use a large numeric sentinel for INF (e.g., 10⁹), `dist[u] + w` might wrap around or become artificially small, letting unreachable nodes erroneously update their neighbors.  
+- Semantically, it enforces “only relax edges out of nodes that we already know how to reach.”
+
+---
+
+Despite its simplicity, the orientation of the relaxation test is critical. Bellman–Ford converges by pushing shortest‐path estimates **forward** along each directed edge. Reversing that direction starves the algorithm of new information and completely breaks convergence.
+
+
 
 
 ### Dijkstra's Algorithm
