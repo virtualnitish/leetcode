@@ -117,6 +117,7 @@ bfs_result = bfs(graph, 0)
 print("BFS traversal:", bfs_result)
 ```
 
+---
 
 # Shortest Path Algorithm
 
@@ -191,7 +192,7 @@ Thus:
 
 By the end of pass `n−1`, you've explored all possible shortest paths that don’t involve cycles — and you’re done.
 
----
+
 
 #### ⛔ What Happens If You Go Beyond `n−1`?
 
@@ -203,7 +204,7 @@ Here's what you do:
 
 So, continuing beyond `n−1` is useful only to check whether **distance is still decreasing due to a loop** — which would violate the well-defined concept of a shortest path.
 
----
+
 
 #### 🧠 In short
 
@@ -227,9 +228,11 @@ if dist[u] != INF and dist[v] + w < dist[u]:
 ```
 swaps the roles of the “from” and “to” node in each edge relaxation. Instead of pushing shorter paths outward from already-settled nodes, it attempts to pull updates backward into the source end of each edge. That breaks the forward-propagation logic that Bellman–Ford relies on.
 
----
 
-#### 2. Example Walkthrough
+
+#### 2. Example Walkthrough 
+
+Just skim thorough the example, no need to understand it too much, read the 3rd point for explanation.
 
 #### 2.1 Original Implementation
 
@@ -260,7 +263,7 @@ Using the reversed condition:
 
 No edge ever propagates a finite value into its head vertex, so all other distances remain INF. Even if you removed early stopping, nothing ever changes beyond the source.
 
----
+
 
 #### 3. Why This Breaks Bellman–Ford
 
@@ -268,7 +271,7 @@ No edge ever propagates a finite value into its head vertex, so all other distan
 - By flipping to `dist[v] + w < dist[u]`, you try to update `u` based on `v`. But `v` starts as INF, so you never “seed” new finite distances.  
 - You lose the directional flow of information from the source to other nodes, so no shortest paths ever propagate.
 
----
+
 
 #### 4. Role of the `dist[u] != INF` Check
 
@@ -276,11 +279,10 @@ No edge ever propagates a finite value into its head vertex, so all other distan
 - If you omit it and use a large numeric sentinel for INF (e.g., 10⁹), `dist[u] + w` might wrap around or become artificially small, letting unreachable nodes erroneously update their neighbors.  
 - Semantically, it enforces “only relax edges out of nodes that we already know how to reach.”
 
----
-
 Despite its simplicity, the orientation of the relaxation test is critical. Bellman–Ford converges by pushing shortest‐path estimates **forward** along each directed edge. Reversing that direction starves the algorithm of new information and completely breaks convergence.
 
 
+---
 
 
 ### Dijkstra's Algorithm
