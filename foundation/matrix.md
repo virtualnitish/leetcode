@@ -34,7 +34,7 @@ grid = [
     [0, 0, 0, 1],
     [0, 1, 0, 0]
 ]
-print(dfs(grid, r, c, set()))
+print(dfs(grid, 0, 0, set()))
 ```
 
 ### DFS Steps to remember
