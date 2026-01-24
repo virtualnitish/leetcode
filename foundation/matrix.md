@@ -1,5 +1,13 @@
 # Matrix
 
+Remember: 
+
+```
+ROWS = len(grid)      # count outer lists → rows
+COLS = len(grid[0])   # count inner list → cols
+```
+
+
 ## DFS
 
 *Recursive Algorithm; Backtracking is involved.*
