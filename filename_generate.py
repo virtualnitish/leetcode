@@ -16,7 +16,7 @@ def convert_title(title):
 
 def copy_to_clipboard(text):
     try:
-        subprocess.run(["copyq", "add", text], check=True)
+        subprocess.run(["copyq", "copy", text], check=True)
         print("Filename copied to clipboard.",end="\n\n")
     except subprocess.CalledProcessError:
         print("Failed to copy to clipboard. Make sure CopyQ is running.")
