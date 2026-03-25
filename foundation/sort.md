@@ -64,6 +64,49 @@ solution.mergeSort(arr, 0, len(arr) - 1)
 print("Sorted array:", arr)
 ```
 
+### Generic Merge-Sort Template (with Lambda Key)
+
+```python
+def merge_sort(arr, key=lambda x: x):
+    if len(arr) <= 1:
+        return arr
+    
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid], key=key)
+    right = merge_sort(arr[mid:], key=key)
+    
+    return merge(left, right, key)
+
+def merge(left, right, key):
+    result = []
+    i = j = 0
+    
+    while i < len(left) and j < len(right):
+        if key(left[i]) <= key(right[j]):
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+```
+
+We can call this function like below:
+
+```python
+# Definition of Interval:
+# class Interval(object):
+#     def __init__(self, start, end):
+#         self.start = start
+#         self.end = end
+sorted_intervals = merge_sort(intervals, key=lambda x: x.start)
+```
+
+
+
 ## Topological Sort
 
 ### Depth-First Search (DFS) Postorder Implementation
