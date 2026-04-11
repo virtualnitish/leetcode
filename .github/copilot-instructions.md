@@ -7,7 +7,8 @@ This is a personal repository for LeetCode solutions and algorithm study materia
 - `python/`: Problem solutions in Markdown format (e.g., `0001.two_sum.md`)
 - `foundation/`: Algorithm templates and theory notes
 - `anki_revision/`: Spaced-repetition study aids
-- `filename_generate.py`: Utility for generating standardized filenames
+- `tools/`: Utility scripts for management (filename_generate, summary_generate)
+- `Makefile`: Entry point for workflow automation (make new, make summary)
 
 ## Code Style and Patterns
 Follow the established Python patterns from the README.md cheat sheet:
@@ -39,7 +40,7 @@ Each problem file in `python/` follows this structure:
 Example: [python/0001.two_sum.md](python/0001.two_sum.md)
 
 ## Filename Convention
-Use `filename_generate.py` to create filenames in format `NNNN.description.md` where NNNN is zero-padded problem number.
+Use `make new` to create filenames in format `NNNN.description.md` where NNNN is zero-padded problem number.
 
 ## Key References
 - [README.md](README.md): Python cheat sheet and repository overview
